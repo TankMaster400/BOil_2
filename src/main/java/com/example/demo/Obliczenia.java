@@ -120,7 +120,7 @@ public class Obliczenia {
                 }
                 else
                 {
-                    this.tab_popyt[i]= 0;
+                    this.tab_popyt[i]= suma_do - suma_od;
                 }
 
             }
