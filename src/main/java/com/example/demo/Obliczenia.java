@@ -13,9 +13,9 @@ public class Obliczenia {
 
     int tab_jedn[][];
     int tab_pop[][];
-    int koszt;
-    int zarob;
-    int zysk;
+    int koszt = 0;
+    int zarob = 0;
+    int zysk = 0;
 
     public void oblicz_j() {
 
@@ -24,26 +24,44 @@ public class Obliczenia {
                 tab_jedn[i][j] = -tab_kosztransportu[i][j];
                 tab_jedn[i][j] -= tab_cena_z[i];
                 tab_jedn[i][j] += tab_cena_s[j];
-                System.out.print( tab_jedn[i][j] + " ");
+                System.out.print(tab_jedn[i][j] + " ");
             }
             System.out.println();
         }
 
     }
 
-    public void oblicz_zar() {
+    public void oblicz_pop()
+    {
 
+    }
+
+
+    public void oblicz_zar()
+    {
+        for (int i = 0; i < size_do; i++)
+        {
+            for (int j = 0; j < size_od; j++)
+            {
+            zysk+=tab_pop[i][j] * tab_cena_s[j];
+            }
+        }
     }
 
     public void oblicz_k()
     {
-
-
+        for (int i = 0; i < size_do; i++)
+        {
+            for (int j = 0; j < size_od; j++)
+            {
+                zysk+=tab_pop[i][j] * (tab_cena_z[j] + tab_kosztransportu[i][j]);
+            }
+        }
     }
 
     public void oblicz_z()
     {
-    this.zysk = this.zarob -this.koszt;
+        this.zysk = this.zarob -this.koszt;
     }
 
     public Obliczenia(int[][] tab_kosztransportu, int[] tab_podaz, int[] tab_popyt, int[] tab_cena_z, int[] tab_cena_s) {
