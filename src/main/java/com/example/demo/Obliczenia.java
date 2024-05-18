@@ -1,7 +1,7 @@
 package com.example.demo;
 
-import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Obliczenia {
 
@@ -16,15 +16,12 @@ public class Obliczenia {
 
     int fdo = 0;
     int fod = 0;
+
     int tab_jedn[][];
-    int tab_pop[][];
+    ArrayList<Pozycja_max> zyski_max = new ArrayList<Pozycja_max>();
     int koszt = 0;
     int zarob = 0;
     int zysk = 0;
-
-    LinkedList<Pozycja_max> zyski_max = new LinkedList<Pozycja_max>();
-
-    static int INF = 1000;
 
     public void oblicz_j() {
 
@@ -58,52 +55,52 @@ public class Obliczenia {
         double min;
         boolean [][]isSet = new boolean[size_do][size_od];
         for (int j = 0; j < size_do; j++)
-            for (int i = 0;  i < size_od; i++)
+        {
+            for (int i = 0; i < size_od; i++)
+            {
                 isSet[j][i] = false;
-
+            }
+        }
         int k =0;
+
         Pozycja_max zysk = new Pozycja_max();
+
         int i = 0, j = 0;
 
         while(k < (size_do + size_do)){
             System.out.println(k);
-            zysk.setZyskj(Integer.MIN_VALUE);
-            //picking up the least cost cell
+
+            zysk.setLiczba_n(Integer.MIN_VALUE);
+
             for (int m = 0;  m < size_do; m++)
             {
                 for (int n = 0; n < size_od; n++)
                 {
                     if (!isSet[m][n])
                     {
-                        if (tab_jedn[m][n] > zysk.getZyskj()) {
+                        if (tab_jedn[m][n] > zysk.getLiczba_n()) {
                             zysk.setDostawca(m);
                             zysk.setOdbiorca(n);
-                            zysk.setZyskj(tab_jedn[m][n]);
+                            zysk.setLiczba_n(tab_jedn[m][n]);
 
                         }
                     }
                 }
             }
 
-
             i = zysk.getDostawca();
             j = zysk.getOdbiorca();
 
             //allocating stock in the proper manner
             min = Math.min(tab_popyt[j], tab_podaz[i]);
-            if( zysk.getZyskj() >= 0) {
-                zyski_max.get(k).setOdbiorca(j);
-                zyski_max.get(k).setDostawca(i);
-                zyski_max.get(k).setZyskj((int) min);
+            if( zysk.getLiczba_n() >= 0) {
+                zyski_max.add(new Pozycja_max(i,j,(int)min));
             }
             k++;
 
             tab_popyt[j] -= min;
             tab_podaz[i] -= min;
 
-            System.out.println(tab_popyt[j] );
-            System.out.println(tab_podaz[i] );
-            //allocating null values in the removed row/column
             if(tab_podaz[i] == 0) {
                 for (int l = 0; l < size_od; l++)
                     isSet[i][l] = true;
@@ -113,19 +110,11 @@ public class Obliczenia {
                 for (int l = 0; l < size_do; l++)
                     isSet[l][j] = true;
             }
-
-            for (int jj = 0; jj < size_do; jj++) {
-                for (int ii = 0; ii < size_od; ii++) {
-                    System.out.print(isSet[jj][ii] + " ");
-                }
-                System.out.println();
-            }
         }
 
-
         int aa = 0;
-        while(aa < k){
-            System.out.println(zyski_max.get(aa).getDostawca() +" " +zyski_max.get(aa).getOdbiorca()+ " "+zyski_max.get(aa).getZyskj());
+        while(aa < zyski_max.size()){
+            System.out.println(zyski_max.get(aa).getDostawca() +" " +zyski_max.get(aa).getOdbiorca()+ " "+zyski_max.get(aa).getLiczba_n());
             aa++;
         }
 
@@ -133,29 +122,30 @@ public class Obliczenia {
 
     public void oblicz_zar()
     {
-        for (int i = 0; i < size_do; i++)
+        int r = 0;
+        while(r < zyski_max.size())
         {
-            for (int j = 0; j < size_od; j++)
-            {
-            zysk+=tab_pop[i][j] * tab_cena_s[j];
-            }
+            zarob += zyski_max.get(r).getLiczba_n()*tab_cena_s[zyski_max.get(r).getOdbiorca()];
+            r++;
         }
+        System.out.println(zarob);
     }
 
     public void oblicz_k()
     {
-        for (int i = 0; i < size_do; i++)
+        int r = 0;
+        while(r < zyski_max.size())
         {
-            for (int j = 0; j < size_od; j++)
-            {
-                zysk+=tab_pop[i][j] * (tab_cena_z[j] + tab_kosztransportu[i][j]);
-            }
+            koszt += zyski_max.get(r).getLiczba_n()*(tab_cena_z[zyski_max.get(r).getDostawca()]+tab_kosztransportu[zyski_max.get(r).getDostawca()][zyski_max.get(r).getOdbiorca()]);
+            r++;
         }
+        System.out.println(koszt);
     }
 
     public void oblicz_z()
     {
         this.zysk = this.zarob -this.koszt;
+        System.out.println(zysk);
     }
 
     public Obliczenia(int[][] tab_kosztransportu, int[] tab_podaz, int[] tab_popyt, int[] tab_cena_z, int[] tab_cena_s) {
@@ -181,7 +171,6 @@ public class Obliczenia {
             this.tab_popyt = tab_popyt;
             this.tab_cena_z = tab_cena_z;
             this.tab_cena_s = tab_cena_s;
-
         }
         else if (suma_od < suma_do)   // fikcyjny odbiorca
         {
@@ -215,7 +204,6 @@ public class Obliczenia {
                 {
                     this.tab_popyt[i]= suma_do - suma_od;
                 }
-
             }
             this.tab_cena_z = tab_cena_z;
             int temp_cena_s[]= tab_cena_s;
@@ -229,10 +217,7 @@ public class Obliczenia {
                 {
                     this.tab_cena_s[i]= 0;
                 }
-
             }
-
-
         }
         else //fikcyjny dostawca?
         {
@@ -241,13 +226,8 @@ public class Obliczenia {
             this.tab_popyt = tab_popyt;
             this.tab_cena_z = tab_cena_z;
             this.tab_cena_s = tab_cena_s;
-
         }
 
         tab_jedn = new int[size_do][size_od];
-        tab_pop = new int[size_do][size_od];
-
-        for(int i=0; i < (size_do + size_od +1); i++)
-            zyski_max.add(new Pozycja_max());
     }
 }
