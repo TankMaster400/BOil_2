@@ -22,19 +22,20 @@ public class App_main extends Application {
     public static void main(String[] args) {
         launch();
         int[][] grid = new int[][] {
-                { 3, 1, 7, 4 }, { 2, 6, 5, 9 }, { 8, 3, 3, 2 }
+                { 0, 0, 0}, { 0, 0, 0 }
         }; // table
 
         int[] supply
-                = new int[] { 300, 400, 500 }; // supply
+                = new int[] { 3,3 }; // supply
         int[] demand
-                = new int[] { 250, 350, 400, 200 };
+                = new int[] { 2, 2 ,2};
         int[] zakup
-                = new int[] { 2, 3, 5 }; // supply
+                = new int[] { 10, 12 }; // supply
         int[] sprzedaz
-                = new int[] { 10, 20, 14, 17 };
+                = new int[] { 30, 25, 30 };
 
         Obliczenia ob1 = new Obliczenia(grid, supply,demand,zakup, sprzedaz);
         ob1.oblicz_j();
+        ob1.oblicz_pop();
     }
 }
