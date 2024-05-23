@@ -16,11 +16,6 @@ public class App_main extends Application {
         stage.setScene(scene);
         stage.show();
 
-
-    }
-
-    public static void main(String[] args) {
-        launch();
         int[][] grid = new int[][] {
                 { 8, 14, 17}, { 12, 9, 19 }
         }; // table
@@ -40,5 +35,12 @@ public class App_main extends Application {
         ob1.oblicz_zar();
         ob1.oblicz_k();
         ob1.oblicz_z();
+
+
+    }
+
+    public static void main(String[] args) throws IOException {
+        launch();
+
     }
 }

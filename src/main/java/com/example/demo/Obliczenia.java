@@ -1,7 +1,29 @@
 package com.example.demo;
 
+import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Obliczenia {
 
@@ -142,10 +164,10 @@ public class Obliczenia {
         System.out.println(koszt);
     }
 
-    public void oblicz_z()
-    {
+    public void oblicz_z() throws IOException {
         this.zysk = this.zarob -this.koszt;
         System.out.println(zysk);
+        Wynik();
     }
 
     public Obliczenia(int[][] tab_kosztransportu, int[] tab_podaz, int[] tab_popyt, int[] tab_cena_z, int[] tab_cena_s) {
@@ -230,4 +252,117 @@ public class Obliczenia {
 
         tab_jedn = new int[size_do][size_od];
     }
-}
+
+    private void Wynik() throws IOException {
+            FXMLLoader fxmlLoader2 = new FXMLLoader(App_main.class.getResource("View_2.fxml"));
+
+            //TableView table = new TableView();
+            StackPane stackPane = new StackPane();
+
+            //table.setEditable(false);
+            //ArrayList<TableColumn> kolumny = new ArrayList<TableColumn>();
+            //ObservableList<String> wiersz = FXCollections.observableArrayList();
+            ArrayList<Label> kolumny = new ArrayList<Label>();
+
+//            for(int i=0;i<tab_jedn.length;i++){
+//                kolumny.add("Supplier "+(i+1));
+//            }
+
+            for(int i=0;i<tab_jedn[0].length;i++){
+                kolumny.add(new Label("Customer "+(i+1)));
+                kolumny.get(i).setFont(new Font("Arial", 20));
+                        //kolumny.add(new TableColumn("Customer "+(i+1)));
+//                if(i==0){
+//                    kolumny.get(i).setMinWidth(200);
+//                    kolumny.get(i).setCellValueFactory(new PropertyValueFactory<String>());
+//                    table.setItems(wiersz);
+//                }
+            }
+
+            //table.getColumns().addAll(kolumny);
+
+            VBox vbox = new VBox();
+            vbox.setSpacing(5);
+            vbox.setPadding(new Insets(10, 0, 0, 10));
+            vbox.getChildren().addAll(kolumny);
+
+            stackPane.getChildren().addAll(kolumny);
+            stackPane.setPadding(new Insets(10, 0, 0, 10));
+
+            //TU POCZATEK
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.TOP_CENTER);
+        grid.setHgap(0);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(25, 25, 25, 25));
+
+        int ot[][]= new int[tab_jedn.length][tab_jedn[0].length];
+
+        Text scenetitle = new Text("Individual profits");
+        scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        scenetitle.setWrappingWidth(200);
+        scenetitle.setTextAlignment(TextAlignment.CENTER);
+        grid.add(scenetitle, 0, 0, 3, 1);
+        for(int j=0;j<tab_jedn.length;j++) {
+            for (int i = 0; i < tab_jedn[0].length; i++) {
+                //kolumny.add(new Label("Customer "+(i+1)));
+//                if (j == 0) {
+//                    grid.add(new Text("Customer " + (i + 1)), i, 1);
+//                } else {
+                Text temp = new Text(String.valueOf(tab_jedn[j][i]));
+                temp.setFont(Font.font("Tahoma", FontWeight.NORMAL, 15));
+
+                temp.setWrappingWidth(200/tab_jedn[0].length);
+                temp.setTextAlignment(TextAlignment.CENTER);
+                    grid.add(temp, i, (j+1));
+                //}
+                ot[j][i] =0;
+            }
+        }
+
+        for(int i=0;i<zyski_max.size();i++){
+            ot[zyski_max.get(i).dostawca][zyski_max.get(i).odbiorca] = zyski_max.get(i).liczba_n;
+        }
+
+        Text scenetitle2 = new Text("Optimal transport");
+        scenetitle2.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        scenetitle2.setWrappingWidth(200);
+        scenetitle2.setTextAlignment(TextAlignment.CENTER);
+        grid.add(scenetitle2, 0, tab_jedn.length+1, 3, 1);
+        for(int j=0;j<ot.length;j++) {
+            for (int i = 0; i < ot[0].length; i++) {
+                Text temp = new Text(String.valueOf(ot[j][i]));
+                temp.setFont(Font.font("Tahoma", FontWeight.NORMAL, 15));
+
+                temp.setWrappingWidth(200/tab_jedn[0].length);
+                temp.setTextAlignment(TextAlignment.CENTER);
+                grid.add(temp, i, (j+tab_jedn.length+2));
+            }
+        }
+
+        scenetitle2 = new Text("Total cost: "+koszt);
+        scenetitle2.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        scenetitle2.setWrappingWidth(200);
+        scenetitle2.setTextAlignment(TextAlignment.CENTER);
+        grid.add(scenetitle2, 0, 2*tab_jedn.length+2, 3, 1);
+
+        scenetitle2 = new Text("Income: "+zarob);
+        scenetitle2.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        scenetitle2.setWrappingWidth(200);
+        scenetitle2.setTextAlignment(TextAlignment.CENTER);
+        grid.add(scenetitle2, 0, 2*tab_jedn.length+3, 3, 1);
+
+        scenetitle2 = new Text("Profit: "+zysk);
+        scenetitle2.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        scenetitle2.setWrappingWidth(200);
+        scenetitle2.setTextAlignment(TextAlignment.CENTER);
+        grid.add(scenetitle2, 0, 2*tab_jedn.length+4, 3, 1);
+
+            Scene scene2 = new Scene(grid, 560, 440);
+            Stage stage2 = new Stage();
+            stage2.setTitle("Wyniki");
+            stage2.setScene(scene2);
+            stage2.show();
+
+        }
+    }
