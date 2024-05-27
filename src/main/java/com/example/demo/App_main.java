@@ -17,17 +17,17 @@ public class App_main extends Application {
         stage.show();
 
         int[][] grid = new int[][] {
-                { 8, 14, 17}, { 12, 9, 19 }
+                {6,4}, {2,5}
         }; // table
 
         int[] supply
-                = new int[] { 20,30 }; // supply
+                = new int[] {35,25}; // supply
         int[] demand
-                = new int[] { 10, 28 ,27};
+                = new int[] { 20,30};
         int[] zakup
-                = new int[] { 10, 12 }; // supply
+                = new int[] {6,7}; // supply
         int[] sprzedaz
-                = new int[] { 30, 25, 30 };
+                = new int[] {11,13};
 
         Obliczenia ob1 = new Obliczenia(grid, supply,demand,zakup, sprzedaz);
         ob1.oblicz_j();

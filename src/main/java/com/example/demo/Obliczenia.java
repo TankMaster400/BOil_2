@@ -115,7 +115,7 @@ public class Obliczenia {
 
             //allocating stock in the proper manner
             min = Math.min(tab_popyt[j], tab_podaz[i]);
-            if( zysk.getLiczba_n() >= 0) {
+            if( zysk.getLiczba_n() > 0) {
                 zyski_max.add(new Pozycja_max(i,j,(int)min));
             }
             k++;
@@ -296,7 +296,7 @@ public class Obliczenia {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        int ot[][]= new int[tab_jedn.length][tab_jedn[0].length];
+        int ot[][]= new int[tab_jedn.length][tab_jedn[0].length-fod];
 
         Text scenetitle = new Text("Individual profits");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
@@ -304,7 +304,7 @@ public class Obliczenia {
         scenetitle.setTextAlignment(TextAlignment.CENTER);
         grid.add(scenetitle, 0, 0, 3, 1);
         for(int j=0;j<tab_jedn.length;j++) {
-            for (int i = 0; i < tab_jedn[0].length; i++) {
+            for (int i = 0; i < tab_jedn[0].length-fod; i++) {
                 //kolumny.add(new Label("Customer "+(i+1)));
 //                if (j == 0) {
 //                    grid.add(new Text("Customer " + (i + 1)), i, 1);
@@ -312,7 +312,7 @@ public class Obliczenia {
                 Text temp = new Text(String.valueOf(tab_jedn[j][i]));
                 temp.setFont(Font.font("Tahoma", FontWeight.NORMAL, 15));
 
-                temp.setWrappingWidth(200/tab_jedn[0].length);
+                temp.setWrappingWidth(200/(tab_jedn[0].length-fod));
                 temp.setTextAlignment(TextAlignment.CENTER);
                     grid.add(temp, i, (j+1));
                 //}
@@ -334,7 +334,7 @@ public class Obliczenia {
                 Text temp = new Text(String.valueOf(ot[j][i]));
                 temp.setFont(Font.font("Tahoma", FontWeight.NORMAL, 15));
 
-                temp.setWrappingWidth(200/tab_jedn[0].length);
+                temp.setWrappingWidth(200/(tab_jedn[0].length-fod));
                 temp.setTextAlignment(TextAlignment.CENTER);
                 grid.add(temp, i, (j+tab_jedn.length+2));
             }
