@@ -256,40 +256,6 @@ public class Obliczenia {
     private void Wynik() throws IOException {
             FXMLLoader fxmlLoader2 = new FXMLLoader(App_main.class.getResource("View_2.fxml"));
 
-            //TableView table = new TableView();
-            StackPane stackPane = new StackPane();
-
-            //table.setEditable(false);
-            //ArrayList<TableColumn> kolumny = new ArrayList<TableColumn>();
-            //ObservableList<String> wiersz = FXCollections.observableArrayList();
-            ArrayList<Label> kolumny = new ArrayList<Label>();
-
-//            for(int i=0;i<tab_jedn.length;i++){
-//                kolumny.add("Supplier "+(i+1));
-//            }
-
-            for(int i=0;i<tab_jedn[0].length;i++){
-                kolumny.add(new Label("Customer "+(i+1)));
-                kolumny.get(i).setFont(new Font("Arial", 20));
-                        //kolumny.add(new TableColumn("Customer "+(i+1)));
-//                if(i==0){
-//                    kolumny.get(i).setMinWidth(200);
-//                    kolumny.get(i).setCellValueFactory(new PropertyValueFactory<String>());
-//                    table.setItems(wiersz);
-//                }
-            }
-
-            //table.getColumns().addAll(kolumny);
-
-            VBox vbox = new VBox();
-            vbox.setSpacing(5);
-            vbox.setPadding(new Insets(10, 0, 0, 10));
-            vbox.getChildren().addAll(kolumny);
-
-            stackPane.getChildren().addAll(kolumny);
-            stackPane.setPadding(new Insets(10, 0, 0, 10));
-
-            //TU POCZATEK
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.TOP_CENTER);
         grid.setHgap(0);
@@ -305,17 +271,12 @@ public class Obliczenia {
         grid.add(scenetitle, 0, 0, 3, 1);
         for(int j=0;j<tab_jedn.length;j++) {
             for (int i = 0; i < tab_jedn[0].length-fod; i++) {
-                //kolumny.add(new Label("Customer "+(i+1)));
-//                if (j == 0) {
-//                    grid.add(new Text("Customer " + (i + 1)), i, 1);
-//                } else {
                 Text temp = new Text(String.valueOf(tab_jedn[j][i]));
                 temp.setFont(Font.font("Tahoma", FontWeight.NORMAL, 15));
 
                 temp.setWrappingWidth(200/(tab_jedn[0].length-fod));
                 temp.setTextAlignment(TextAlignment.CENTER);
                     grid.add(temp, i, (j+1));
-                //}
                 ot[j][i] =0;
             }
         }
@@ -344,20 +305,28 @@ public class Obliczenia {
         scenetitle2.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         scenetitle2.setWrappingWidth(200);
         scenetitle2.setTextAlignment(TextAlignment.CENTER);
-        scenetitle2.getStyleClass().add("custom-label");
-        grid.add(scenetitle2, 0, 2*tab_jedn.length+2, 3, 1);
+        StackPane stackPane2 = new StackPane();
+        stackPane2.setStyle("-fx-background-color: yellow;");
+        stackPane2.getChildren().add(scenetitle2);
+        grid.add(stackPane2, 0, 2*tab_jedn.length+2, 3, 1);
 
         scenetitle2 = new Text("Income: "+zarob);
         scenetitle2.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         scenetitle2.setWrappingWidth(200);
         scenetitle2.setTextAlignment(TextAlignment.CENTER);
-        grid.add(scenetitle2, 0, 2*tab_jedn.length+3, 3, 1);
+        stackPane2 = new StackPane();
+        stackPane2.setStyle("-fx-background-color: blue;");
+        stackPane2.getChildren().add(scenetitle2);
+        grid.add(stackPane2, 0, 2*tab_jedn.length+3, 3, 1);
 
         scenetitle2 = new Text("Profit: "+zysk);
         scenetitle2.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         scenetitle2.setWrappingWidth(200);
         scenetitle2.setTextAlignment(TextAlignment.CENTER);
-        grid.add(scenetitle2, 0, 2*tab_jedn.length+4, 3, 1);
+        stackPane2 = new StackPane();
+        stackPane2.setStyle("-fx-background-color: red;");
+        stackPane2.getChildren().add(scenetitle2);
+        grid.add(stackPane2, 0, 2*tab_jedn.length+4, 3, 1);
 
             Scene scene2 = new Scene(grid, 560, 440);
             Stage stage2 = new Stage();
