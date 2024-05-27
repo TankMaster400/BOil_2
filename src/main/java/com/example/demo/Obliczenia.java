@@ -115,7 +115,7 @@ public class Obliczenia {
 
             //allocating stock in the proper manner
             min = Math.min(tab_popyt[j], tab_podaz[i]);
-            if( zysk.getLiczba_n() >= 0) {
+            if( zysk.getLiczba_n() > 0) {
                 zyski_max.add(new Pozycja_max(i,j,(int)min));
             }
             k++;
