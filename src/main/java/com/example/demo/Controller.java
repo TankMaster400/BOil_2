@@ -31,7 +31,7 @@ public class Controller {
     private int currWidth = 4;
     @FXML
     protected void calculate() throws IOException {
-        welcomeText.setText("Welcome to JavaFX Application!");
+
 
         int[] supply = new int[currHeight-2];
         int[] demand = new int[currWidth-2];

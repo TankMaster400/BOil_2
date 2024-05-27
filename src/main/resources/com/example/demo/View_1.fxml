@@ -57,8 +57,8 @@
    <Label text="Sprzedaz" />
    <HBox alignment="CENTER" prefHeight="28.0" prefWidth="256.0">
       <children>
-         <Button layoutX="129.0" layoutY="12.0" onAction="#sizeDownW" text="Kolumny -" />
-          <Button onAction="#sizeDownH" text="Wiersze -">
+         <Button layoutX="129.0" layoutY="12.0" onAction="#sizeDownW" text="Odbiorcy -" />
+          <Button onAction="#sizeDownH" text="Dostawcy -">
             <HBox.margin>
                <Insets left="10.0" right="10.0" />
             </HBox.margin></Button>
@@ -66,10 +66,10 @@
             <HBox.margin>
                <Insets left="10.0" right="10.0" />
             </HBox.margin></Button>
-          <Button onAction="#sizeUpH" text="+ Wiersze">
+          <Button onAction="#sizeUpH" text="+ Dostawcy">
             <HBox.margin>
                <Insets left="10.0" right="10.0" />
             </HBox.margin></Button>
-         <Button layoutX="310.0" layoutY="12.0" onAction="#sizeUpW" text="+ Kolumny" />
+         <Button layoutX="310.0" layoutY="12.0" onAction="#sizeUpW" text="+ Odbiorcy" />
       </children></HBox>
 </VBox>
