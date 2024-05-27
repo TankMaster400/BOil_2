@@ -344,6 +344,7 @@ public class Obliczenia {
         scenetitle2.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         scenetitle2.setWrappingWidth(200);
         scenetitle2.setTextAlignment(TextAlignment.CENTER);
+        scenetitle2.getStyleClass().add("custom-label");
         grid.add(scenetitle2, 0, 2*tab_jedn.length+2, 3, 1);
 
         scenetitle2 = new Text("Income: "+zarob);
